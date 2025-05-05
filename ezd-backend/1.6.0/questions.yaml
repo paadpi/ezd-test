@@ -229,7 +229,7 @@ questions:
     description: "Redis Image Name."
     type: string
     show_if: "global.redis.deploy=true"
-  - variable: redisConfig.customConfig.kubernetesConfig.redisExporter.image
+  - variable: redisConfig.customConfig.redisExporter.image
     label: Redis Exporter Image Name
     description: "Redis Exporter Image Name."
     type: string
