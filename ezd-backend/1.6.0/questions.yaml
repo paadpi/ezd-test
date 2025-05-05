@@ -2,7 +2,6 @@ categories:
 - database
 questions:
 - variable: global.rabbitmq.deploy
-  default: "true"
   label: Deploy RabbitMQ
   type: boolean
   group: "Components"
@@ -27,7 +26,6 @@ questions:
     description: "Amount of replicas rabbitmq. Min 3 replicas for ha"
     group: "RabbitMQ Settings"
     type: int
-    default: 1
   - variable: rabbitmqConfig.customConfig.persistence.storageClassName 
     label: Storage Class for database data
     description: "Select storage class for database data"
@@ -38,9 +36,7 @@ questions:
     description: "Size database data"
     group: "RabbitMQ Settings"
     type: string
-    default: "2Gi"
   - variable: global.rabbitmq.custom.consumption
-    default: "false"
     label: Modify resource consumption
     group: "RabbitMQ Settings"
     type: boolean
@@ -50,24 +46,19 @@ questions:
       label: Milicore limit for rabbitmq instance
       description: "1000 milicores = 1vCPU"
       type: string
-      default: "2000m"
     - variable: rabbitmqConfig.customConfig.resources.requests.cpu
       label: Milicore request for rabbitmq instance
       description: "1000 milicores = 1vCPU, value must be <= milicore limit"
       type: string
-      default: "2000m"
     - variable: rabbitmqConfig.customConfig.resources.limits.memory
       label: Memory limit for rabbitmq instance
       description: "Memory limit"
       type: string
-      default: "2Gi"
     - variable: rabbitmqConfig.customConfig.resources.requests.memory
       label: Memory request for rabbitmq instance
       description: "Memory request, value must be <= memory limit"
       type: string
-      default: "2Gi"
   - variable: rabbitmqConfig.ingress.enabled
-    default: "false"
     label: Enable web console for RabbitMQ
     group: "RabbitMQ Settings"
     type: boolean
@@ -77,10 +68,8 @@ questions:
       label: URL
       description: "Configure url for rabbitmq web-ui"
       type: string
-      default: "rabbitmq.my.domain.internal"
 
 - variable: global.postgresql.deploy
-  default: "true"
   label: Deploy Postgresql
   type: boolean
   group: "Components"
@@ -105,7 +94,6 @@ questions:
     description: "Amount of replicas postgresql. Min 3 replicas for ha"
     group: "Postgresql Settings"
     type: int
-    default: 1
   - variable: postgresqlConfig.customConfig.storage.storageClass 
     label: Storage Class for database data
     description: "Select storage class for database data"
@@ -116,7 +104,6 @@ questions:
     description: "Size database data"
     group: "Postgresql Settings"
     type: string
-    default: "2Gi"
   - variable: postgresqlConfig.customConfig.walStorage.storageClass 
     label: Storage Class for database WAL
     description: "Select storage class for database WAL"
@@ -127,9 +114,7 @@ questions:
     description: "Size database WAL"
     group: "Postgresql Settings"
     type: string
-    default: "2Gi"
   - variable: global.postgresql.custom.consumption
-    default: "false"
     label: Modify resource consumption
     group: "Postgresql Settings"
     type: boolean
@@ -139,24 +124,19 @@ questions:
       label: Milicore limit for postgresql instance
       description: "1000 milicores = 1vCPU"
       type: string
-      default: "2000m"
     - variable: postgresqlConfig.customConfig.postgresql.parameters.resources.requests.cpu
       label: Milicore request for postgresql instance
       description: "1000 milicores = 1vCPU, value must be <= milicore limit"
       type: string
-      default: "2000m"
     - variable: postgresqlConfig.customConfig.postgresql.parameters.resources.limits.memory
       label: Memory limit for postgresql instance
       description: "Memory limit"
       type: string
-      default: "2Gi"
     - variable: postgresqlConfig.customConfig.postgresql.parameters.resources.requests.memory
       label: Memory request for postgresql instance
       description: "Memory request, value must be <= memory limit"
       type: string
-      default: "2Gi"
 - variable: global.redis.deploy
-  default: "true"
   label: Deploy Redis
   type: boolean
   group: "Components"
@@ -169,12 +149,6 @@ questions:
     type: password
     min: 8
     required: true
-#  - variable: redisConfig.customConfig.setit
-#    label: Replicas
-#    description: "Amount of replicas redis. Min 3 replicas for ha"
-#    group: "Redis Settings"
-#    type: int
-#    default: 1
   - variable: redisConfig.customConfig.storage.volumeClaimTemplate.spec.storageClassName
     label: Storage Class for database data
     description: "Select storage class for database data"
@@ -185,9 +159,7 @@ questions:
     description: "Size database data"
     group: "Redis Settings"
     type: string
-    default: "2Gi"
   - variable: global.redis.custom.consumption
-    default: "false"
     label: Modify resource consumption
     group: "Redis Settings"
     type: boolean
@@ -197,25 +169,20 @@ questions:
       label: Milicore limit for redis instance
       description: "1000 milicores = 1vCPU"
       type: string
-      default: "128m"
     - variable: redisConfig.customConfig.kubernetesConfig.resources.requests.cpu
       label: Milicore request for redis instance
       description: "1000 milicores = 1vCPU, value must be <= milicore limit"
       type: string
-      default: "128m"
     - variable: redisConfig.customConfig.kubernetesConfig.resources.limits.memory
       label: Memory limit for redis instance
       description: "Memory limit"
       type: string
-      default: "128Mi"
     - variable: redisConfig.customConfig.kubernetesConfig.resources.requests.memory
       label: Memory request for redis instance
       description: "Memory request, value must be <= memory limit"
       type: string
-      default: "128Mi"
 
 - variable: global.privateRegistry.createSecret
-  default: "false"
   description: "Check if you want authenticate to image registry "
   type: boolean
   group: "Private Registry Settings"
@@ -227,26 +194,20 @@ questions:
     description: "URL of private registry. For instance: docker.io, ghcr.io"
     group: "Private Registry Settings"
     type: string
-    default: "https://index.docker.io/v1/"
   - variable: global.imageCredentials.username
     label: Private registry user
     description: "User used to authenticate to private registry."
     type: string
-    default: ""
   - variable: global.imageCredentials.password
     label: Private registry password
     description: "Password used to authenticate to private registry."
     type: password
-    default: ""
   - variable: global.imageCredentials.email
     label: Private registry email
     description: "Email used to authenticate to private registry"
     type: string
-    default: ""
-
 
 - variable: global.defaultImage
-  default: false
   description: "Check if you have images in a private registry"
   label: "Change default image source"
   type: boolean
@@ -257,23 +218,19 @@ questions:
     label: Postgresql Image Name
     description: "Postgresql image name."
     type: string
-    default: "quay.io/linuxpolska/ezd-backend_postgresql:16.3-postgres-16.3-bullseye-r1"
     show_if: "global.postgresql.deploy=true"
   - variable: rabbitmqConfig.customConfig.image
     label: RabbitMQ Image Name
     description: "RabbitMQ image name."
     type: string
-    default: "quay.io/linuxpolska/ezd-backend_rabbitmq:3.13.16-management-rabbitmq-3.13-r1"
     show_if: "global.rabbitmq.deploy=true"
   - variable: redisConfig.customConfig.kubernetesConfig.image
     label: Redis Image Name
     description: "Redis Image Name."
     type: string
-    default: "quay.io/linuxpolska/ezd-backend_redis:7.0.13-alpine-3.15-r1"
     show_if: "global.redis.deploy=true"
   - variable: redisConfig.customConfig.kubernetesConfig.redisExporter.image
     label: Redis Exporter Image Name
     description: "Redis Exporter Image Name."
     type: string
-    default: "quay.io/linuxpolska/ezd-backend_redis-exporter:1.44.0"
     show_if: "global.redis.deploy=true"
