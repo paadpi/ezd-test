@@ -21,6 +21,7 @@ global:
 rabbitmq-operator:
   clusterOperator:
     image:
+      registry: ""
       repository: docker.io/bitnami/rabbitmq-cluster-operator
       tag: 2.13.0
       pullPolicy: Always
