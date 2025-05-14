@@ -59,12 +59,12 @@ questions:
     type: string
     label: Postgresql Image Tag
     show_if: "global.postgresql.deploy=true"
-  - variable: rabbitmq-operator.image.repository
+  - variable: rabbitmq-operator.clusterOperator.image.repository
     description: "RabbitMQ image name"
     type: string
     label: RabbitMQ Image Name
     show_if: "global.rabbitmq.deploy=true"
-  - variable: rabbitmq-operator.image.tag
+  - variable: rabbitmq-operator.clusterOperator.image.tag
     description: "RabbitMQ image tag"
     type: string
     label: RabbitMQ Image Tag

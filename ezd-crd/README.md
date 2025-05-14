@@ -79,5 +79,5 @@ helm show values lp-ezd/ezd-crd
 
 ## Components version
 - cloudnative-pg: 0.23.2 1.23.1
-- rabbitmq-cluster-operator: 4.4.11
-- redis-operator: 0.20.2 v0.20.2
+- rabbitmq-cluster-operator: 4.4.11 2.13.0
+- redis-operator: 0.20.1 v0.20.1

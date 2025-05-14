@@ -21,8 +21,7 @@ global:
 rabbitmq-operator:
   clusterOperator:
     image:
-      registry: docker.io
-      repository: bitnami/rabbitmq-cluster-operator
+      repository: docker.io/bitnami/rabbitmq-cluster-operator
       tag: 2.13.0
       pullPolicy: Always
     resources:
@@ -42,7 +41,7 @@ rabbitmq-operator:
 cloudnative-pg:
   image:
     repository: ghcr.io/cloudnative-pg/cloudnative-pg
-    tag: ""
+    tag: "1.23.1"
     pullPolicy: Always
   resources: {}
   tolerations: []
