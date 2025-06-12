@@ -1,75 +1,115 @@
-<!--- app-name: ezd-backend -->
-# LP backend for EZD RP 
+## General
 
-Services necessary to run EZD RP application provided by NASK. 
-For more detailed information for EZD-BACKEND chart please check [README](https://github.com/linuxpolska/ezd-rp/blob/main/README.md)
+> **Note:**
+> Chart ezd-backend was tested with chart version up to 21.11.11 (application version up to 1.2025.21.11).
 
-## TL;DR
+### Are you looking for more information?
 
-```console
-helm repo add lp-ezd https://linuxpolska.github.io/ezd-rp
-helm upgrade --install --create-namespace ezd-backend -n ezd-rp lp-ezd/ezd-backend
-```
+1. Based on: https://github.com/linuxpolska/ezd-rp
+2. Documentation: https://github.com/linuxpolska/ezd-rp/blob/main/README.md
+3. Chart Source: https://linuxpolska.github.io/ezd-rp
 
-## Introduction
 
-This chart bootstraps a set of operatos and CRDs on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+## Before Installation
 
-Linux Polska charts can be served by [Rancher Apps & Marketplace](https://ranchermanager.docs.rancher.com/pages-for-subheaders/helm-charts-in-rancher) for deployment and management of Helm Charts in clusters.
-
-## Prerequisites
+#### Prerequisites
 
 - Kubernetes 1.19+
 - Helm 3.2.0+
 - PV provisioner support in the underlying infrastructure
 
-## Installing the Chart
+## After Installation
 
-Add repository necessary for installation:
+> **Note:**
+>
+> Copy, write down or memorize notes from helm installation output. It will be necessary for EZD RP frontend installation.
+>
+> OR
+>
+> Use `/tmp/ezd-pass.sh` file as prepared in *CLI installation - Preparation section*
 
-```console
-helm repo add lp-ezd https://github.com/linuxpolska/ezd-rp
-helm repo update
+## Before Upgrade
+
+> **Note:**
+> no action required
+
+## After Upgrade
+
+> **Note:**
+> no action required
+
+
+## Tips and Tricks
+
+> **Note:**
+> List all releases using `helm list`
+
+## Known Issues
+
+> **Note:**
+> Notify us: https://github.com/linuxpolska/ezd-rp/issues
+
+## CLI installation
+
+### Preparation
+
+```bash
+RELEASE_NAMESPACE=example
+CHART_VERSION=1.8.0
+
+cat <<EOF > /tmp/ezd-pass.sh
+# These passwords are necessary for ezdrp backend AND frontend deployments.
+# Following passwords will be a random alphanumeric by default.
+# You can change it to Your alphanumeric password.
+
+PSQL_PASSWD=$(openssl rand -hex 10)
+PSQL_APP_PASSWD=$(openssl rand -hex 10)
+RABBITMQ_PASSWD=$(openssl rand -hex 10)
+RABBITMQ_USER=ezdrpadmin
+REDIS_PASSWD=$(openssl rand -hex 10)
+
+BACKEND_NAMESPACE=$RELEASE_NAMESPACE
+EOF
+source /tmp/ezd-pass.sh
 ```
 
-To install the chart with the release name `my-release`:
+### Go go helm
 
-```console
-helm upgrade --install --create-namespace ezd-backend -n ezd-rp le-ezd/ezd-backend
+```bash
+cat << EOF > /tmp/values.yaml
+postgresqlConfig:
+  auth:
+    admPassword:  ${PSQL_PASSWD}
+    appPassword:  ${PSQL_APP_PASSWD}
+rabbitmqConfig:
+  auth:
+    password:  ${RABBITMQ_PASSWD}
+    username:  ${RABBITMQ_USER}
+redisConfig:
+  auth:
+    password:  ${REDIS_PASSWD}
+EOF
+
+helm -n ${RELEASE_NAMESPACE} upgrade --install ezd-backend-release \
+--repo https://linuxpolska.github.io/ezd-rp \
+ezd-backend \
+-f /tmp/values.yaml \
+--version ${CHART_VERSION} \
+--create-namespace
 ```
 
-The command deploys postgresql, rabbitmq, redis on the Kubernetes cluster in the default configuration. For more detailed information regarding parameters please check our [README](https://github.com/linuxpolska/ezd-rp/blob/main/README.md).
+### Validation and Testing
 
-> **Tip**: List all releases using `helm list`
-
-## Uninstalling the Chart
-
-To uninstall/delete the `ezd-backend` deployment:
-
-```console
-helm -n default uninstall ezd-backed
+```bash
+kubectl -n ${RELEASE_NAMESPACE} get po
+helm -n ${RELEASE_NAMESPACE} list
 ```
 
-> **Note**: Deleting the helm chart will delete all data as well. Please be cautious before doing it.
+## CLI removing
 
-> **Note**: Remove helm chart before remove CRDs for LP Backend.
-
-For more detailed information regarding installation of ezd-backend please refer to [INSTALLATION](https://github.com/linuxpolska/ezd-rp/blob/main/INSTALLATION.md)
-
-## Compability with NASK ezdrp version
-
-Chart ezd-crd was tested with chart version up to 21.7.29 (application version up to 1.2025.21.7).
-
-## Configuration and parameters
-
-See [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing). To see all configurable options with detailed comments:
-
-```console
-helm search repo lp-ezd
-helm show values lp-ezd/ezd-backend
+```bash
+helm -n ${RELEASE_NAMESPACE} uninstall ezd-backend-release
 ```
 
-## Components version
-- redis:8.0.0
-- rabbitmq:4.1.0
-- postgresql:17.4.1
+## GUI Installation
+If You want to install ezd-backend via GUI, please follow [this instruction](https://github.com/linuxpolska/ezd-rp/blob/main/INSTALL_VIA_GUI.md)
